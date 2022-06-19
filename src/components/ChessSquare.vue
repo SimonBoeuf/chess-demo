@@ -10,10 +10,6 @@ const props = defineProps<{
   isEmpty: boolean;
 }>();
 
-if (props.selected) {
-  // console.log(props.position);
-}
-
 const emit = defineEmits<{
   (e: "select"): void;
 }>();

@@ -103,17 +103,24 @@ export const newGame = (): BoardState => {
   };
 };
 
-export const select = (boardState: BoardState, position: Position) => {
+export const select = (
+  boardState: BoardState,
+  position: Position
+): BoardState => {
   const squarePlayer = boardState.board[position.y][position.x].player;
 
   if (squarePlayer !== boardState.currentPlayer) {
-    boardState.candidateMoves = [];
-    boardState.selected = null;
-    return boardState;
+    return {
+      ...boardState,
+      candidateMoves: [],
+      selected: null,
+    };
   }
-  boardState.selected = position;
-  boardState.candidateMoves = getCandidateMoves(boardState, position);
-  return boardState;
+  return {
+    ...boardState,
+    selected: position,
+    candidateMoves: getCandidateMoves(boardState, position),
+  };
 };
 
 export const play = (

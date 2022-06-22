@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 
-import { newGame, Player, select, play } from "@/game";
+import { newGame, select, play } from "@/game";
+import { Player } from "@/types";
 import { isGameFinished } from "../rules/draw";
 import { isInCheck } from "../rules/check";
 import { getPieceComponent, shouldPlayAfterClick } from "./chessBoard.utils";

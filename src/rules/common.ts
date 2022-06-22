@@ -1,4 +1,4 @@
-import type { Board, Player, Position, Square } from "@/game";
+import type { Board, Player, Position, Square } from "@/types";
 import { getSquareAt, isInBounds } from "@/utils";
 
 export const checkUpperLeftDiag = (

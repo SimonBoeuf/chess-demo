@@ -4,7 +4,7 @@ import {
   type Board,
   type BoardState,
   type Position,
-} from "@/game";
+} from "@/types";
 
 import WB from "./icons/wB.vue";
 import WK from "./icons/wK.vue";

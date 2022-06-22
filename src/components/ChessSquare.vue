@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, computed } from "vue";
-import type { Position } from "../game";
+import type { Position } from "@/types";
 import clsx from "clsx";
 
 const props = defineProps<{

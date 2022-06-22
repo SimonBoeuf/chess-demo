@@ -6,7 +6,7 @@ import {
   Player,
   type Move,
   Piece,
-} from "../game";
+} from "@/types";
 import { getBishopMoves } from "./bishop";
 import { getPawnMoves } from "./pawn";
 import { getQueenMoves } from "./queen";
@@ -121,14 +121,6 @@ export const getResultingBoardStateAfterMove = (
   };
 };
 
-const willBeInCheck = (boardState: BoardState, move: Move) => {
-  const resultingBoardState: BoardState = getResultingBoardStateAfterMove(
-    boardState,
-    move
-  );
-  return isInCheck(boardState.currentPlayer, resultingBoardState);
-};
-
 export const getCandidateMoves = (
   boardState: BoardState,
   position: Position,
@@ -164,8 +156,12 @@ export const isLegalMove =
       if (isBlocked(move.origin.player, move.destination.player)) {
         return false;
       }
-      if (preventChecks && willBeInCheck(boardState, move)) {
-        return false;
+      if (preventChecks) {
+        const resultingBoardState: BoardState = getResultingBoardStateAfterMove(
+          boardState,
+          move
+        );
+        return isInCheck(boardState.currentPlayer, resultingBoardState);
       }
       return true;
     };

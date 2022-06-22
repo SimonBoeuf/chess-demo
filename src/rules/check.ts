@@ -1,4 +1,4 @@
-import { Piece, type BoardState, type Player } from "@/game";
+import { Piece, type BoardState, type Player } from "@/types";
 import { getCandidateMoves } from ".";
 
 export const isInCheck = (player: Player, boardState: BoardState) => {

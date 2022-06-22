@@ -1,4 +1,4 @@
-import type { Square, Board } from "@/game";
+import type { Square, Board } from "@/types";
 import {
   checkLowerLeftDiag,
   checkLowerRightDiag,

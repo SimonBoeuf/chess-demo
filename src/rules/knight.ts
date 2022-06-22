@@ -1,4 +1,4 @@
-import type { Square, Position, Board } from "@/game";
+import type { Square, Position, Board } from "@/types";
 import { checkSquareIsValidDestination, addPosition } from "./common";
 
 const checkUpAndRight = (square: Square, board: Board) => {

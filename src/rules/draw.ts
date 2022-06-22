@@ -1,4 +1,4 @@
-import { Piece, Player, type BoardState } from '@/game';
+import { Piece, Player, type BoardState } from '@/types';
 import { isPiece } from '@/utils';
 import { getCandidateMoves } from '.';
 

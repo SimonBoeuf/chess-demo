@@ -1,4 +1,4 @@
-import type { Board, Piece, Position } from "./game";
+import type { Board, Piece, Position } from "./types";
 
 export const isPiece = (piece: Piece | undefined): piece is Piece => {
   return piece !== undefined;

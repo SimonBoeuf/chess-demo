@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { Player } from "@/game";
+import { Player } from "@/types";
 const props = defineProps<{
   winner: Player | null;
 }>();

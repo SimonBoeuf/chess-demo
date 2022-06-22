@@ -1,4 +1,4 @@
-import { Player, type Square, type Position, type Board } from "@/game";
+import { Player, type Square, type Position, type Board } from "@/types";
 import { isInBounds } from "@/utils";
 
 // TODO: en passant + promotion

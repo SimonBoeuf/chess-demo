@@ -1,5 +1,5 @@
 import type { Board, Player, Position, Square } from "@/game";
-import { isInBounds } from "@/utils";
+import { getSquareAt, isInBounds } from "@/utils";
 
 export const checkUpperLeftDiag = (
   square: Square,
@@ -216,7 +216,7 @@ export const checkSquareIsValidDestination = (
   if (!isInBounds(destination)) {
     return null;
   }
-  if (board[destination.y][destination.x].player === player) {
+  if (getSquareAt(board, destination).player === player) {
     return null;
   }
   return destination;

@@ -19,6 +19,7 @@ import BN from "./icons/bN.vue";
 import BP from "./icons/bP.vue";
 import BQ from "./icons/bQ.vue";
 import BR from "./icons/bR.vue";
+import { getSquareAt } from '@/utils';
 
 export const mapWhitePieceToComponent = new Map([
   [Piece.Bishop, WB],
@@ -62,8 +63,9 @@ export const shouldPlayAfterClick = (
   boardState: BoardState,
   position: Position
 ) => {
+  const square = getSquareAt(boardState.board, position);
   return (
     Boolean(boardState.selected) &&
-    boardState.board[position.y][position.x].player !== boardState.currentPlayer
+    square.player !== boardState.currentPlayer
   );
 };

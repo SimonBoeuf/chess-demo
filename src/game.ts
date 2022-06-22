@@ -1,4 +1,5 @@
 import { getCandidateMoves, getResultingBoardStateAfterMove } from "./rules";
+import { getSquareAt } from './utils';
 
 export type Position = {
   x: number;
@@ -107,7 +108,7 @@ export const select = (
   boardState: BoardState,
   position: Position
 ): BoardState => {
-  const squarePlayer = boardState.board[position.y][position.x].player;
+  const squarePlayer = getSquareAt(boardState.board, position).player;
 
   if (squarePlayer !== boardState.currentPlayer) {
     return {
@@ -141,8 +142,8 @@ export const play = (
   }
 
   const move: Move = {
-    destination: boardState.board[position.y][position.x],
-    origin: boardState.board[boardState.selected.y][boardState.selected.x],
+    destination: getSquareAt(boardState.board, position),
+    origin: getSquareAt(boardState.board, boardState.selected),
   };
   return getResultingBoardStateAfterMove(boardState, move);
 };

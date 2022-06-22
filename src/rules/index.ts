@@ -14,6 +14,7 @@ import { getRookMoves } from "./rook";
 import { getKingMoves } from "./king";
 import { getKnightMoves } from "./knight";
 import { isInCheck } from "./check";
+import { getSquareAt } from '@/utils';
 
 const isInBounds = (square: Square) => {
   return (
@@ -23,6 +24,29 @@ const isInBounds = (square: Square) => {
     square.position.y <= 7
   );
 };
+
+const getSquareCandidateMoves = (
+  square: Square,
+  board: Board
+) => {
+  if (square.piece === undefined) {
+    return [];
+  }
+  const mapPieceToMoveGetter = new Map([
+    [Piece.Pawn, getPawnMoves],
+    [Piece.Knight, getKnightMoves],
+    [Piece.Bishop, getBishopMoves],
+    [Piece.Queen, getQueenMoves],
+    [Piece.King, getKingMoves],
+    [Piece.Rook, getRookMoves],
+  ]);
+  const getMoves = mapPieceToMoveGetter.get(square.piece);
+
+  if (!getMoves) {
+    throw new Error(`Unhandled piece : ${square.piece}`);
+  }
+  return getMoves(square, board);
+}
 
 const isPieceMove = (
   square: Square,
@@ -56,18 +80,6 @@ const isBlocked = (
   destinationSquarePlayer?: Player
 ) => {
   return destinationSquarePlayer === originSquarePlayer;
-};
-
-export const hasPlayerCandidateMoves = (boardState: BoardState): boolean => {
-  const playerSquares = boardState.board.flatMap((row) => {
-    return row.filter((square) => {
-      return square.player === boardState.currentPlayer;
-    });
-  });
-  return playerSquares.some((square) => {
-    const candidateMoves = getCandidateMoves(boardState, square.position);
-    return candidateMoves.length;
-  });
 };
 
 export const getResultingBoardStateAfterMove = (
@@ -121,16 +133,13 @@ export const getCandidateMoves = (
   boardState: BoardState,
   position: Position,
   preventChecks = true
-) => {
-  return boardState.board
-    .flatMap((row, rowIndex) => {
-      return row.map((_, colIndex) => {
-        return {
-          destination: boardState.board[rowIndex][colIndex],
-          origin: boardState.board[position.y][position.x],
-        };
-      });
-    })
+): Position[] => {
+  const origin = getSquareAt(boardState.board, position);
+  return getSquareCandidateMoves(origin, boardState.board)
+    .map(destination => ({
+      origin,
+      destination: getSquareAt(boardState.board, destination),
+    }))
     .filter(isLegalMove(boardState, preventChecks))
     .map(({ destination }) => ({
       x: destination.position.x,
@@ -140,23 +149,24 @@ export const getCandidateMoves = (
 
 export const isLegalMove =
   (boardState: BoardState, preventChecks: boolean) =>
-  (move: Move): boolean => {
-    if (move.origin.piece === undefined || move.origin.player === undefined) {
-      return false;
-    }
-    if (
-      !isPieceMove(move.origin, boardState.board, move.destination.position)
-    ) {
-      return false;
-    }
-    if (!isInBounds(move.destination)) {
-      return false;
-    }
-    if (isBlocked(move.origin.player, move.destination.player)) {
-      return false;
-    }
-    if (preventChecks && willBeInCheck(boardState, move)) {
-      return false;
-    }
-    return true;
-  };
+    (move: Move): boolean => {
+      if (move.origin.piece === undefined || move.origin.player === undefined) {
+        return false;
+      }
+      if (
+        !isPieceMove(move.origin, boardState.board, move.destination.position)
+      ) {
+        return false;
+      }
+      if (!isInBounds(move.destination)) {
+        return false;
+      }
+      if (isBlocked(move.origin.player, move.destination.player)) {
+        return false;
+      }
+      if (preventChecks && willBeInCheck(boardState, move)) {
+        return false;
+      }
+      return true;
+    };
+

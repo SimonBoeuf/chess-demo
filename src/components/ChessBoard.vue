@@ -2,7 +2,7 @@
 import { ref, computed } from "vue";
 
 import { newGame, Player, select, play } from "@/game";
-import { hasPlayerCandidateMoves } from "../rules";
+import { isGameFinished } from "../rules/draw";
 import { isInCheck } from "../rules/check";
 import { getPieceComponent, shouldPlayAfterClick } from "./chessBoard.utils";
 
@@ -11,7 +11,7 @@ import GameOver from "./GameOver.vue";
 
 const boardState = ref(newGame());
 const isFinished = computed(() => {
-  return !hasPlayerCandidateMoves(boardState.value);
+  return isGameFinished(boardState.value);
 });
 const winner = computed<Player | null>(() => {
   if (

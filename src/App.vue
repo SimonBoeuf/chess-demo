@@ -1,11 +1,7 @@
-<script setup lang="ts">
-import ChessBoard from "./components/ChessBoard.vue";
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <main>
-    <ChessBoard />
-  </main>
+  <main>Hello Ekinox!</main>
 </template>
 
 <style>
@@ -17,6 +13,10 @@ import ChessBoard from "./components/ChessBoard.vue";
   padding: 2rem;
 
   font-weight: normal;
+}
+
+main {
+  color: black;
 }
 
 header {
